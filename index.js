@@ -83,7 +83,7 @@ async function main() {
 const args = process.argv.slice(2);
 if (!args[0]) {
     console.log('Missing required container name argument, choose from the following IMAGE names:\n');
-    consele.log(ps());
+    console.log(ps());
     process.exit(1);
 }
 const target = args[0];
