@@ -6,6 +6,9 @@
   "scripts": {
     "test": "docker-cli --help"
   },
+  "bin": {
+    "docker-cli": "index.js"
+  },
   "keywords": [
     "docker",
     "container",
@@ -15,5 +18,9 @@
     "ssh"
   ],
   "author": "Fabio Pampin (Copperdust)",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "fuzzball": "^1.2.2",
+    "prompt-confirm": "^2.0.4"
+  }
 }
