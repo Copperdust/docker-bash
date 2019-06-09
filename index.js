@@ -38,9 +38,8 @@ async function main() {
     var bestMatches = matches.filter((v) => {
         return v[1] >= matches[0][1];
     });
-    // console.log(bestMatches);
 
-    if ( bestMatches.length == 1 ) {
+    if (bestMatches.length == 1) {
         var match = bestMatches[0];
         if ( match[1] != 100 ) {
             const prompts = require('prompts');
@@ -58,7 +57,7 @@ async function main() {
         } else {
             manager.getByName(match[0]).bash();;
         }
-    } else {
+    } else if (bestMatches.length > 1) {
         const prompts = require('prompts');
 
         var choicifiedBestMatches = bestMatches.reduce((acc, item, i) => {
@@ -83,8 +82,11 @@ async function main() {
 const args = process.argv.slice(2);
 if (!args[0]) {
     console.log('Missing required container name argument, choose from the following IMAGE names:\n');
-    console.log(ps());
-    process.exit(1);
+    (async () => {
+        console.log(await ps());
+        process.exit(1)
+    })();
+    return;
 }
 const target = args[0];
 
