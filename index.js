@@ -75,30 +75,32 @@ async function main() {
             message: 'Multiple matches, choose container',
             choices: choicifiedBestMatches,
         });
+        if (!response.container) return;
         response.container.bash();
     }
 }
 
 const args = process.argv.slice(2);
 if (!args[0]) {
-    console.log('Missing required container name argument, choose from the following IMAGE names:\n');
     (async () => {
         var psResult = await ps();
         psResult = psResult.split('\n')
-            .filter((v) => { return v; });
-        console.log(psResult.shift());
-        psResult = psResult.map((v) => {
-            var array = v.split(/\s{2,}/);
-            manager.put(array[0], array[1]);
-        });
+            .filter((v) => { return v; })
+            .slice(1)
+            .map((v) => {
+                var array = v.split(/\s{2,}/);
+                manager.put(array[0], array[1]);
+            });
+
         const prompts = require('prompts');
 
         const response = await prompts({
             type: 'select',
             name: 'container',
-            message: 'Multiple matches, choose container',
+            message: 'No filter. Choose container',
             choices: manager.listChoices(),
         });
+        if (!response.container) return;
         response.container.bash();
     })();
     return;
