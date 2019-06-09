@@ -1,13 +1,13 @@
 {
-  "name": "docker-cli",
+  "name": "docker-bash",
   "version": "1.0.0",
   "description": "Connect to a container's CLI (bash) using only the image name (e.g. wordpress) rather than it's running container ID",
   "main": "index.js",
   "scripts": {
-    "test": "docker-cli --help"
+    "test": "docker-bash --help"
   },
   "bin": {
-    "docker-cli": "index.js"
+    "docker-bash": "index.js"
   },
   "keywords": [
     "docker",
