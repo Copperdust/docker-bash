@@ -46,6 +46,15 @@ class ContainerManager {
             return acc;
         }, []);
     }
+    listChoices() {
+        return this.results.reduce((acc, item) => {
+            acc.push({
+                title: item.getDescription(),
+                value: item,
+            })
+            return acc;
+        }, []);
+    }
 }
 
 exports.Container = Container;

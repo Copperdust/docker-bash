@@ -2,6 +2,7 @@
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 const { Container, ContainerManager } = require('./components/containers');
+const manager = new ContainerManager();
 
 async function ps(format) {
     var psCmd = 'docker ps';
@@ -18,7 +19,6 @@ async function ps(format) {
 }
 
 async function main() {
-    const manager = new ContainerManager();
     var psResult = await ps('{{.Names}}|{{.ID}}')
     psResult.split('\n')
         .filter((v) => {return v;})
@@ -83,8 +83,23 @@ const args = process.argv.slice(2);
 if (!args[0]) {
     console.log('Missing required container name argument, choose from the following IMAGE names:\n');
     (async () => {
-        console.log(await ps());
-        process.exit(1)
+        var psResult = await ps();
+        psResult = psResult.split('\n')
+            .filter((v) => { return v; });
+        console.log(psResult.shift());
+        psResult = psResult.map((v) => {
+            var array = v.split(/\s{2,}/);
+            manager.put(array[0], array[1]);
+        });
+        const prompts = require('prompts');
+
+        const response = await prompts({
+            type: 'select',
+            name: 'container',
+            message: 'Multiple matches, choose container',
+            choices: manager.listChoices(),
+        });
+        response.container.bash();
     })();
     return;
 }
