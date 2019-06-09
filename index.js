@@ -43,20 +43,40 @@ async function main() {
     if ( bestMatches.length == 1 ) {
         var match = bestMatches[0];
         if ( match[1] != 100 ) {
-            const Confirm = require('prompt-confirm');
+            const prompts = require('prompts');
+
             let desc = manager.getByName(match[0]).getDescription();
-            const prompt = new Confirm('Inexact match, do you wanna connect to: ' + desc);
-            prompt.run()
-            .then(function (answer) {
-                if (!answer) return;
-                manager.getByName(match[0]).bash();
+            const response = await prompts({
+                type: 'confirm',
+                name: 'connect',
+                message: 'Connect to: ' + desc,
+                initial: true,
             });
+            if (!response.connect) return;
+
+            manager.getByName(match[0]).bash();
         } else {
             manager.getByName(match[0]).bash();;
         }
     } else {
-        // TODO: Multiple match handling
-        console.log("Multiple matches! Select:");
+        const prompts = require('prompts');
+
+        var choicifiedBestMatches = bestMatches.reduce((acc, item, i) => {
+            var c = manager.getByName(item[0]);
+            acc.push({
+                title: c.getDescription(),
+                value: c,
+            })
+            return acc;
+        }, []);
+
+        const response = await prompts({
+            type: 'select',
+            name: 'container',
+            message: 'Multiple matches, choose container',
+            choices: choicifiedBestMatches,
+        });
+        response.container.bash();
     }
 }
 

@@ -21,6 +21,6 @@
   "license": "ISC",
   "dependencies": {
     "fuzzball": "^1.2.2",
-    "prompt-confirm": "^2.0.4"
+    "prompts": "^2.1.0"
   }
 }
