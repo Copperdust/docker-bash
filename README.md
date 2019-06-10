@@ -1,3 +1,5 @@
+# Docker (Easy) Bash
+
 In order to install:
 
 `npm install -g docker-bash`
