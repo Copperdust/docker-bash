@@ -31,13 +31,15 @@ async function main() {
     // console.log(manager);
 
     const fuzz = require('fuzzball');
-    const options = { scorer: fuzz.token_set_ratio };
-    var matches = fuzz.extract(target, manager.listNames(), options);
+    const options = { scorer: fuzz.partial_ratio };
+    var matches = bestMatches = fuzz.extract(target, manager.listNames(), options);
     // console.log(matches);
 
-    var bestMatches = matches.filter((v) => {
-        return v[1] >= matches[0][1];
-    });
+    if (matches[0][1] == 100) {
+        bestMatches = matches.filter((v) => {
+            return v[1] >= matches[0][1];
+        });
+    }
 
     if (bestMatches.length == 1) {
         var match = bestMatches[0];
