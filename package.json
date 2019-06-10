@@ -4,7 +4,7 @@
   "description": "Connect to a container's CLI (bash) using only the image name (e.g. wordpress) rather than it's running container ID",
   "main": "index.js",
   "scripts": {
-    "test": "docker-bash --help"
+    "test": "docker-bash"
   },
   "bin": {
     "docker-bash": "index.js"
